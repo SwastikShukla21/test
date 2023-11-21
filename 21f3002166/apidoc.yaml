@@ -1,0 +1,1115 @@
+openapi: '3.0.0'
+info:
+  title: EMarket
+  version: 1.0.0
+  description: API's for EMarket app.
+paths:
+  /slogin:
+    post:
+      summary: Store Manager Login
+      description: Authenticate a store manager user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'store_manager'
+                password:
+                  type: string
+                  example: 'password123'
+      responses:
+        '201':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Could not verify Invalid username'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Incorrect Password, Try again'
+
+
+  /clogin:
+    post:
+      summary: Customer Login
+      description: Authenticate a customer user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "customer_user"
+                password:
+                  type: string
+                  example: "customer_password"
+      responses:
+        '201':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  username:
+                    type: string
+                    example: "customer_user"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Could not verify Invalid username"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Incorrect Password, Try again"
+  
+  /alogin:
+    post:
+      summary: Admin Login
+      description: Authenticate an admin user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "admin_user"
+                password:
+                  type: string
+                  example: "admin_password"
+      responses:
+        '201':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Could not verify Invalid username"
+        '403':
+          description: Forbidden
+          content:
+  
+  /ssignup:
+    post:
+      summary: Store Manager Signup
+      description: Register a new store manager user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "store_manager@example.com"
+                username:
+                  type: string
+                  example: "store_manager"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully registered."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User already exists. Please Log in"
+  
+  
+  /signup:
+    post:
+      summary: Customer Signup
+      description: Register a new customer user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "customer@example.com"
+                username:
+                  type: string
+                  example: "customer_user"
+                password:
+                  type: string
+                  example: "customer_password"
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully registered."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User already exists. Please Log in"
+  
+  
+  /addsection:
+    post:
+      summary: Add New Section (Category)
+      description: Add a new section (category) to the store.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Electronics"
+      responses:
+        '201':
+          description: Section (Category) added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully added."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not an admin access, restricted"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category already exists."
+                    
+  /addproduct:
+    post:
+      summary: Add Product
+      description: Add a new product to the store inventory.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Smartphone"
+                price:
+                  type: number
+                  example: 599.99
+                expdate:
+                  type: string
+                  example: "2023-12-31"
+                quantity:
+                  type: integer
+                  example: 100
+                ms:
+                  type: string
+                  example: "Unit"
+                desc:
+                  type: string
+                  example: "High-quality smartphone"
+                cat:
+                  type: string
+                  example: "Electronics"
+      responses:
+        '201':
+          description: Product added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully added."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category does not exist."
+
+  
+  /categories:
+    get:
+      summary: Get Categories
+      description: Retrieve a list of all categories in the store.
+      responses:
+        '201':
+          description: List of categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Electronics"
+                    itemlen:
+                      type: integer
+                      example: 10
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+  
+  /getscale:
+    get:
+      summary: Get Scale Options
+      description: Retrieve a list of scale options for product quantities.
+      responses:
+        '201':
+          description: List of scale options retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Kg"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+  
+  /getproducts:
+    get:
+      summary: Get Products
+      description: Retrieve a list of products available in the store.
+      responses:
+        '201':
+          description: List of products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Product Name"
+                    price:
+                      type: number
+                      example: 9.99
+                    expdate:
+                      type: string
+                      format: date
+                      example: "2023-12-31"
+                    stock:
+                      type: integer
+                      example: 100
+                    ms:
+                      type: string
+                      example: "Some Measurement"
+                    desc:
+                      type: string
+                      example: "Product description"
+                    category:
+                      type: string
+                      example: "Electronics"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+  paths:
+  /getproduct/{id}:
+    get:
+      summary: Get Product by ID
+      description: Retrieve product details by providing its unique ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the product to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '201':
+          description: Product details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "Product Name"
+                  price:
+                    type: number
+                    example: 9.99
+                  expdate:
+                    type: string
+                    format: date
+                    example: "2023-12-31"
+                  quantity:
+                    type: integer
+                    example: 100
+                  ms:
+                    type: string
+                    example: "Some Measurement"
+                  desc:
+                    type: string
+                    example: "Product description"
+                  category:
+                    type: string
+                    example: "Electronics"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+
+  
+  /deleteproduct/{id}:
+    get:
+      summary: Delete Product by ID
+      description: Delete a product by providing its unique ID (Store Manager access required).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the product to delete
+          schema:
+            type: integer
+            example: 1
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully deleted"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+
+  
+  /updateproduct/{id}:
+    post:
+      summary: Update Product by ID
+      description: Update a product by providing its unique ID (Store Manager access required).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the product to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Product Name"
+                price:
+                  type: number
+                  example: 19.99
+                quantity:
+                  type: integer
+                  example: 50
+                category:
+                  type: string
+                  example: "Updated Category Name"
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully updated"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+
+    /deletecat/{id}:
+    get:
+      summary: Delete Category by ID
+      description: Delete a product category by providing its unique ID (Admin access required).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the category to delete
+          schema:
+            type: integer
+            example: 1
+        - name: role
+          in: query
+          required: true
+          description: Role of the user (admin/storem)
+          schema:
+            type: string
+            example: "admin"
+      responses:
+        '201':
+          description: Category deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully deleted"
+  
+    /getcategory/{id}:
+    get:
+      summary: Get Category by ID
+      description: Retrieve a product category by providing its unique ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the category to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '201':
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "Category Name"
+        '404':
+          description: Category does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category does not exist"
+
+  /updatecat/{id}:
+    post:
+      summary: Update Category by ID
+      description: Update a product category by providing its unique ID (Admin access required).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the category to update
+          schema:
+            type: integer
+            example: 1
+        - name: role
+          in: query
+          required: true
+          description: Role of the user (admin)
+          schema:
+            type: string
+            example: "admin"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Category Name"
+      responses:
+        '201':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Successfully updated"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+    /checkout:
+    post:
+      summary: Place an Order
+      description: Place an order for products in the cart.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cart:
+                  type: array
+                  description: List of products in the cart
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "Product Name"
+                      price:
+                        type: number
+                        example: 19.99
+                      quantity:
+                        type: integer
+                        example: 2
+                total:
+                  type: number
+                  description: Total order value
+                  example: 39.98
+                username:
+                  type: string
+                  description: Username of the customer
+                  example: "customer_user"
+      responses:
+        '201':
+          description: Order placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Order Placed"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Sorry for Inconvenience, Product Name went out of stock"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal Server Error, Please try again later"
+  
+    /exportproducts:
+    get:
+      summary: Export Products as CSV
+      description: Export the list of products as a CSV file (Store Manager access required).
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: CSV export task initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_id:
+                    type: string
+                    example: "12345-67890-abcde-fghij"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access,
+  
+    /checkstatus/{taskid}:
+    get:
+      summary: Check Export Status
+      description: Check the status of a CSV export task initiated by the store manager.
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          description: ID of the export task
+          schema:
+            type: string
+            example: "12345-67890-abcde-fghij"
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Task status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  csvlink:
+                    type: string
+                    example: "/static/products.csv"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+    /requests:
+    get:
+      summary: Get All Requests
+      description: Get a list of all pending requests (Admin access required).
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Requests retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    type:
+                      type: string
+                      example: "add"
+                    subtype:
+                      type: string
+                      example: "category"
+                    sectionname:
+                      type: string
+                      example: "New Category"
+                    status:
+                      type: string
+                      example: "pending"
+                    cat_id:
+                      type: integer
+                      example: 2
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+    post:
+      summary: Place a Request
+      description: Place a new request (Store Manager access required).
+      security:
+        - TokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                type:
+                  type: string
+                  example: "add"
+                subtype:
+                  type: string
+                  example: "category"
+                newname:
+                  type: string
+                  example: "New Category"
+                status:
+                  type: string
+                  example: "pending"
+      responses:
+        '201':
+          description: Request placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Request placed successfully"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+    put:
+      summary: Update Request Status
+      description: Update the status of a request (Admin access required).
+      security:
+        - TokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                status:
+                  type: string
+                  example: "approved"
+      responses:
+        '201':
+          description: Request status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Request updated successfully"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+    /getorders:
+    get:
+      summary: Get Orders
+      description: Get a list of orders (Store Manager and Customer access allowed).
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Orders retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "John Doe"
+                    order_value:
+                      type: number
+                      example: 50.0
+                    order_date:
+                      type: string
+                      example: "09/02/23"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+    /gettransaction:
+    get:
+      summary: Get Transactions
+      description: Get a list of transactions for a specific order (Store Manager and Customer access allowed).
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Transactions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Product A"
+                    quantity:
+                      type: integer
+                      example: 5
+                    price:
+                      type: number
+                      example: 10.0
+                    value:
+                      type: number
+                      example: 50.0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+  
+    /summary:
+    get:
+      summary: Generate Summary
+      description: Generate a summary of sales and orders (Store Manager access required).
+      security:
+        - TokenAuth: []
+      responses:
+        '201':
+          description: Summary generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Summary generated"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized access, access restricted"
+
+       

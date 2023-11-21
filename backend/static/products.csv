@@ -1,0 +1,6 @@
+Id,Name,Price,ExpDate,Left Stock,Measuring Scale,Description,Category
+1,Potatoes,20.0,2023-12-31,26,Kg,Fresh Potatoes,Vegetable
+2,Tomato,40.0,2023-12-03,96,Kg,Fresh Tomatoes,Vegetable
+3,Paneer,280.0,2023-01-01,0,Kg,Fresh Paneer,Dairy 
+4,Coriander,150.0,2023-09-20,20,Unit,Available in 100gm packets,Spices
+5,Chilli Powder,20.0,2023-09-14,44,Unit,Chili,Vegetable
